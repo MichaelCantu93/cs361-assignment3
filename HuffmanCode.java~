@@ -31,7 +31,6 @@ class HuffmanNode extends HuffmanTree {
  
 public class HuffmanCode {
     static String[] a = new String[52];
-    static int index = 0;
     // input is an array of frequencies, indexed by character code
     public static HuffmanTree buildTree(int[] charFreqs) {
         PriorityQueue<HuffmanTree> trees = new PriorityQueue<HuffmanTree>();
@@ -59,7 +58,7 @@ public class HuffmanCode {
         return a;
     } 
 
-    public static void printCodes(HuffmanTree tree, StringBuffer prefix) {
+    public static void printCodes(HuffmanTree tree, StringBuffer prefix, int index) {
         assert tree != null;
         if (tree instanceof HuffmanLeaf) {
             HuffmanLeaf leaf = (HuffmanLeaf)tree;
@@ -75,12 +74,12 @@ public class HuffmanCode {
  
             // traverse left
             prefix.append('0');
-            printCodes(node.left, prefix);
+            printCodes(node.left, prefix, index);
             prefix.deleteCharAt(prefix.length()-1);
  
             // traverse right
             prefix.append('1');
-            printCodes(node.right, prefix);
+            printCodes(node.right, prefix, index);
             prefix.deleteCharAt(prefix.length()-1);
         }
     }

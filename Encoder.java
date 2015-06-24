@@ -8,8 +8,10 @@ public class Encoder
 		String f = args[0];
         int k = Integer.parseInt(args[1]);
 
-        int newRUN = 1;
-	
+        int newRunTest = 1;
+	    int newRunEnc = 1;
+        int newRunDec = 1;
+
 		File filename = new File(f);     //specify file input
 		if (filename.length() == 0)        //check if no input
 		{
@@ -68,9 +70,10 @@ public class Encoder
  
         // print out results
         System.out.println("SYMBOL\tWEIGHT\tHUFFMAN CODE");
+
         HuffmanCode.printCodes(tree, new StringBuffer());
         //END OF HUFFMAN MAIN CODE FROM THE HUFFMAN WE FOUND ONLINE
-
+        String [] encodings = HuffmanCode.getArray();
 
         try
 		{
@@ -116,12 +119,12 @@ public class Encoder
 		    	if (!file.exists())
 		    	{
 		    		file.createNewFile();
-                    newRUN = 0;
+                    newRunTest = 0;
 		    	}
-                else if(newRUN == 1)
+                else if(newRunTest == 1)
                 {
                     file.delete();
-                    newRUN = 0;
+                    newRunTest = 0;
                 }
 		    	
 		    	FileWriter fw = new FileWriter(file.getName(), true);
@@ -137,8 +140,97 @@ public class Encoder
             place = 0;
         }
 
+        File testText = new File("testText.txt");     //specify file input
+		if (testText.length() == 0)        //check if no input
+		{
+			System.out.print("File is empty.");
+			System.exit(0);
+		}
+		Scanner input1 = new Scanner(testText);      //make scanner for file
+		String line1 = input1.nextLine();
+		
+        while (input1.hasNextLine() || !line1.equals(""))      //iterate through file
+		{
+            try
+		    {
+		    	File file1 = new File("testText.enc1");
+		    	if (!file1.exists())
+		    	{
+		    		file1.createNewFile();
+                    newRunEnc = 0;
+		    	}
+                else if(newRunEnc == 1)
+                {
+                    file1.delete();
+                    newRunEnc = 0;
+                }
+		    	
+		    	FileWriter fw1 = new FileWriter(file1.getName(), true);
+		    	BufferedWriter bw1 = new BufferedWriter(fw1);
+		    	bw1.write(encodings[Arrays.asList(encodings).indexOf(line1)+1] + "\n");
+		    	bw1.close();
+		    } catch (IOException e)
+		    {
+			    e.printStackTrace();
+		    }
+            if(input1.hasNextLine())
+            { 
+                line1 = input1.nextLine();          
+            }
+            else
+            {
+                line1 = "";
+            }
+        }
+
+        File testTextDec = new File("testText.enc1");     //specify file input
+		if (testTextDec.length() == 0)        //check if no input
+		{
+			System.out.print("File is empty.");
+			System.exit(0);
+		}
+		Scanner input2 = new Scanner(testTextDec);      //make scanner for file
+		String line2 = input2.nextLine();
+		
+        while (input2.hasNextLine() || !line2.equals(""))      //iterate through file
+		{
+            try
+		    {
+		    	File file2 = new File("testText.dec1");
+		    	if (!file2.exists())
+		    	{
+		    		file2.createNewFile();
+                    newRunDec = 0;
+		    	}
+                else if(newRunDec == 1)
+                {
+                    file2.delete();
+                    newRunDec = 0;
+                }
+		    	
+		    	FileWriter fw2 = new FileWriter(file2.getName(), true);
+		    	BufferedWriter bw2 = new BufferedWriter(fw2);
+		    	bw2.write(encodings[Arrays.asList(encodings).indexOf(line2)-1] + "\n");
+		    	bw2.close();
+		    } catch (IOException e)
+		    {
+			    e.printStackTrace();
+		    }
+            if(input2.hasNextLine())
+            { 
+                line2 = input2.nextLine();          
+            }
+            else
+            {
+                line2 = "";
+            }
+        }
+
+
 
 		input.close();
+        input1.close();
+        input2.close();
 	}
 
 
