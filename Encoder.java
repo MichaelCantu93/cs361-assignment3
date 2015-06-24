@@ -54,7 +54,6 @@ public class Encoder
             entropy = entropy + freq * (Math.log(freq)/Math.log(2));
         }
         entropy = (-1)*entropy;
-        System.out.println(entropy);
 
         //WAS MAIN CODE FROM HUFFMAN WE FOUND ONLINE, MOVED TO OUR MAIN
 
@@ -149,6 +148,8 @@ public class Encoder
 		Scanner input1 = new Scanner(testText);      //make scanner for file
 		String line1 = input1.nextLine();
 		
+        double bitCount = 0;
+
         while (input1.hasNextLine() || !line1.equals(""))      //iterate through file
 		{
             try
@@ -168,6 +169,7 @@ public class Encoder
 		    	FileWriter fw1 = new FileWriter(file1.getName(), true);
 		    	BufferedWriter bw1 = new BufferedWriter(fw1);
 		    	bw1.write(encodings[Arrays.asList(encodings).indexOf(line1)+1] + "\n");
+                bitCount = bitCount + encodings[Arrays.asList(encodings).indexOf(line1)+1].length();
 		    	bw1.close();
 		    } catch (IOException e)
 		    {
@@ -226,7 +228,11 @@ public class Encoder
             }
         }
 
+        double encEff = bitCount/(double)k;
 
+        double perDiff = (Math.abs(entropy - encEff) / ((entropy + encEff)/2)) * 100; 
+
+        System.out.println("Entropy is: " + entropy + "\n" + "Our encoding efficiency: " + encEff + "\n" + "Percentage Difference: " + perDiff);
 
 		input.close();
         input1.close();
